@@ -1,49 +1,84 @@
-# RAG Question Answering Pipeline
+# RAG Question-Answering System
 
-This project implements a Retrieval Augmented Generation (RAG) pipeline for answering questions about text data while maintaining context.
+A Retrieval-Augmented Generation (RAG) system that can answer questions about text documents while maintaining context and making logical inferences.
 
-## Setup
+## Features
 
-1. Install the required dependencies:
+- Text processing with both chunked and full-text approaches
+- Configurable system prompts for different use cases
+- Vector store-based retrieval using ChromaDB
+- OpenAI's GPT model for answer generation
+- Support for logical inference across text segments
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone [your-repo-url]
+cd [repo-name]
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Create a `.env` file in the root directory and add your OpenAI API key:
+4. Create a `.env` file and add your OpenAI API key:
 ```
 OPENAI_API_KEY=your_api_key_here
 ```
 
 ## Usage
 
-1. Prepare your text file:
-   - The text should be organized in paragraphs
-   - Save it as a `.txt` file
-   - The pipeline will automatically chunk the text while maintaining context
+1. Prepare your text file in the project directory.
 
-2. Run the pipeline:
+2. Run the RAG pipeline:
 ```python
-from rag_pipeline import RAGPipeline
+from rag_pipeline import RAGPipeline, SingleChunkRAGPipeline
 
-# Initialize the pipeline
-rag = RAGPipeline()
+# Initialize the pipeline (choose one)
+rag = RAGPipeline()  # For chunked approach
+# OR
+rag = SingleChunkRAGPipeline()  # For full-text approach
 
 # Process your text file
-rag.process_text("path_to_your_text_file.txt")
+rag.process_text("your_text_file.txt")
 
 # Ask questions
-question = "Your question here"
-answer = rag.answer_question(question)
+answer = rag.answer_question("Your question here?")
 print(answer)
 ```
 
-## Features
+## Project Structure
 
-- Intelligent text chunking with overlap to maintain context
-- Vector storage using Chroma DB
-- OpenAI embeddings and language model for high-quality responses
-- Persistent storage of embeddings for reuse
+- `rag_pipeline.py`: Main implementation of the RAG system
+- `requirements.txt`: Project dependencies
+- `story.txt`: Sample text file for testing
+- `.env`: Environment variables (not in repo)
 
-## Note
+## Configuration
 
-Make sure you have a valid OpenAI API key and sufficient credits for using the embeddings and language model services. 
+You can customize the system prompt when initializing the pipeline:
+
+```python
+custom_prompt = """Your custom prompt here"""
+rag = RAGPipeline(system_prompt=custom_prompt)
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 
